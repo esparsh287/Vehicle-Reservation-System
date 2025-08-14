@@ -3,10 +3,12 @@ from django.contrib.auth import authenticate,login,logout
 from .forms import SignUpForm
 from django.contrib import messages
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from .models import Vehicle
 
 def register(request):
   if request.method=="POST":
-    form=SignUpForm(request.POST)
+    form=SignUpForm(request.POST, request.FILES)
     if form.is_valid():
       user=form.save()
       messages.success(request, "Account created successfully!!!")
@@ -19,3 +21,7 @@ def register(request):
     form=SignUpForm()
     
   return render(request, 'accounts/register.html', {'form':form})
+
+
+
+ 

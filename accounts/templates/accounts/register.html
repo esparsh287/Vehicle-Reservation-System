@@ -1,30 +1,63 @@
 {% extends 'accounts/base.html' %}
 
 {% block content %}
- <header class="bg-dark py-5">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Register</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Create Your Account...</p>
-                </div>
-            </div>
-        </header> 
-        <div class="container">
-          <div class="row">
-            
-              <div class="col-md-6 offset-md-3">
-                <br><br>
-       <form method="post" action="{% url 'register' %}">
-
-                  {% csrf_token %}
-                  {{form.as_p}}
-                  <br><br>
-                  <button class="btn btn-secondary" type="submit">Register</button>
-  
-        </form>
-<br><br><br><br><br><br><br><br><br><br>
-              </div>
-            
-          </div>
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Register</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Create Your Account...</p>
         </div>
+    </div>
+</header> 
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <br><br>
+            <form method="post" enctype="multipart/form-data" action="{% url 'register' %}">
+                {% csrf_token %}
+
+                <div class="mb-3">{{ form.username }}</div>
+                <div class="mb-3">{{ form.email }}</div>
+                <div class="mb-3">{{ form.first_name }}</div>
+                <div class="mb-3">{{ form.last_name }}</div>
+                <div class="mb-3">{{ form.password1 }}</div>
+                <div class="mb-3">{{ form.password2 }}</div>
+                <div class="mb-3">{{ form.phone_number }}</div>
+                <div class="mb-3">{{ form.address }}</div>
+                <div class="mb-3">{{ form.role }}</div>
+
+                <div id="vehicle-fields" style="display: none;">
+                    <div class="mb-3">{{ form.vehicle_name }}</div>
+                    <div class="mb-3">{{ form.vehicle_number }}</div>
+                    <div class="mb-3">{{ form.capacity }}</div>
+                    <div class="mb-3">{{ form.vehicle_type }}</div>
+                    <div class="mb-3">{{ form.description }}</div>
+                    <div class="mb-3">{{ form.photo }}</div>
+                </div>
+
+                <br>
+                <button class="btn btn-secondary" type="submit">Register</button>
+            </form>
+            <br><br><br><br>
+        </div>
+    </div>
+</div>
+
+<script>
+    const roleSelect = document.getElementById("id_role"); 
+    const vehicleFields = document.getElementById("vehicle-fields");
+
+    function toggleVehicleFields() {
+        if (roleSelect.value === "owner") { 
+            vehicleFields.style.display = "block";
+        } else {
+            vehicleFields.style.display = "none";
+        }
+    }
+
+    toggleVehicleFields();
+    roleSelect.addEventListener("change", toggleVehicleFields);
+</script>
+
 {% endblock %}
