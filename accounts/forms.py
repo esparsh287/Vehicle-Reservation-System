@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from .models import CustomUser
-from .models import Vehicle
+from .models import Vehicle, KYCForm
 
 
 class SignUpForm(UserCreationForm):
@@ -60,3 +60,9 @@ class SignUpForm(UserCreationForm):
                     
                 )
         return user
+    
+
+class KYCform(forms.ModelForm):
+    class Meta:
+        model=KYCForm
+        fields=['citizenship_number', 'license_number', 'dob', 'document']
