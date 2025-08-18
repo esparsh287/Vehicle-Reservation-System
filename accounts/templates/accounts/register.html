@@ -10,7 +10,7 @@
     </div>
 </header> 
 
-<div class="container">
+<div class="container ">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <br><br>
@@ -38,12 +38,16 @@
 
                 <br>
                 <button class="btn btn-secondary" type="submit">Register</button>
+                <p class="mb-0">
+            Already have an account? 
+            <a href="{% url 'login' %}" class="text-decoration-none">Login</a>
+          </p>
             </form>
             <br><br><br><br>
         </div>
     </div>
-</div>
 
+</div>
 <script>
     const roleSelect = document.getElementById("id_role"); 
     const vehicleFields = document.getElementById("vehicle-fields");

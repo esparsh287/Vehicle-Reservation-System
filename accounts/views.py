@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, KYCform
 from django.contrib import messages
+from .models import CustomUser
+from django.contrib.auth.decorators import login_required
 
-# Registration view
+
 def register(request):
     if request.method == "POST":
         form = SignUpForm(request.POST, request.FILES)
@@ -19,7 +21,7 @@ def register(request):
 
             # Login regular users
             login(request, user)
-            return redirect('home')  # Replace with your actual home page URL
+            return redirect('login')  # Replace with your actual home page URL
 
         else:
             messages.error(request, "Error occurred during registration!")
@@ -27,6 +29,28 @@ def register(request):
         form = SignUpForm()
 
     return render(request, 'accounts/register.html', {'form': form})
+
+
+def login_view(request):
+    if request.method=='POST':
+        username= request.POST['username']
+        password= request.POST['password']
+        user=authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Login Sucessful!!!!")
+            return redirect('home')
+        else:
+            messages.error(request, "Error During Login")
+            return redirect('login')
+    return render(request, 'accounts/login.html',{})
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You have Logged out.... Thanks for stopping by!!!")
+    return redirect('login')
 
 
 def kyc_view(request):
@@ -48,3 +72,9 @@ def kyc_view(request):
     else:
         form = KYCform()
     return render(request, 'accounts/kyc_form.html', {'form': form})
+
+
+@login_required
+def profile(request, pk):
+    user=CustomUser.objects.get(pk=pk)
+    return render(request, 'accounts/profile.html',{'user':user})
