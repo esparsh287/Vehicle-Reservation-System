@@ -19,13 +19,15 @@ def about(request):
 
 def categories(request, name):
     vehicles=Vehicle.objects.filter(vehicle_type=name.lower())
-    if name == 'car':
-        return render(request, 'app/car.html',{'vehicles': vehicles})
-    elif name == 'van':
-        return render(request, 'app/van.html',{'vehicles': vehicles})
-    elif name == 'bus':
-        return render(request, 'app/bus.html',{'vehicles': vehicles})
-    else:
-        return render(request, 'app/truck.html',{'vehicles': vehicles})
+    return render(request, 'app/vechicle.html',{'vehicles': vehicles, 'name':name})
+   
+    
+
+def search(request):
+    if request.method=="POST":
+        result= request.POST['search']
+        vechicles= Vehicle.objects.filter(vehicle_name__icontains= result)
+        return render(request, 'app/search.html', {'vehicles': vechicles})
+    return render(request, 'app/search.html', {})
     
     

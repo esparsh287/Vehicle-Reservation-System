@@ -10,6 +10,15 @@
     </div>
 </header> 
 <br><br>
+<style>
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+</style>
 
 <div class="container">
   {% regroup vehicles by vehicle_type as vehicle_groups %}
@@ -37,7 +46,7 @@
             </ul>
 
             <div class="card-body text-center">
-              <a href="#" class="btn btn-outline-primary w-100">🚗 Book Now</a>
+              <a href="#" class="btn btn-outline-primary w-100"> Book Now</a>
             </div>
           </div>
         </div>

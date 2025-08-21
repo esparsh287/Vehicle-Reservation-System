@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import SignUpForm, KYCform
+from .forms import SignUpForm, KYCform, UserUpdateForm
 from django.contrib import messages
 from .models import CustomUser
 from django.contrib.auth.decorators import login_required
@@ -78,3 +78,18 @@ def kyc_view(request):
 def profile(request, pk):
     user=CustomUser.objects.get(pk=pk)
     return render(request, 'accounts/profile.html',{'user':user})
+
+
+def update_profile(request, pk):
+    user= CustomUser.objects.get(pk=pk)
+    if request.method=="POST":
+        form=UserUpdateForm(request.POST, instance= user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile Update Sucessfully!!!")
+            return redirect('profile', user.id)
+        else:
+            messages.error(request, "Profile Update Failed")
+            return redirect('home')
+    
+    return render(request, 'accounts/update_profile.html', {'user':user})
