@@ -1,0 +1,74 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Book Your Ride</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Reserve your vehicle quickly and easily</p>
+        </div>
+    </div>
+</header> 
+
+<div class="container my-5">
+  <div class="row justify-content-center g-4">
+    
+    <!-- Vehicle Card -->
+    <div class="col-md-5">
+      <div class="card shadow-lg border-0 rounded-3 h-100">
+        <img src="{{ vehicle.photo.url }}" class="card-img-top rounded-top" alt="{{ vehicle.vehicle_name }}">
+        
+        <div class="card-body text-center">
+          <h4 class="card-title text-primary fw-bold">{{ vehicle.vehicle_name }}</h4>
+          <p class="card-text text-muted">{{ vehicle.description|truncatewords:20 }}</p>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Reg. Number:</strong> {{ vehicle.vehicle_number }}</li>
+          <li class="list-group-item"><strong>Capacity:</strong> {{ vehicle.capacity }}</li>
+          <li class="list-group-item"><strong>Owner:</strong> {{ vehicle.owner }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="col-md-5">
+      <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-success text-white text-center fw-bold">
+          Booking Form
+        </div>
+        <div class="card-body">
+          <form method="post" action="{% url 'booking' vehicle.pk %}">
+            {% csrf_token %}
+            
+            <!-- Render form fields with spacing -->
+            <div class="mb-3">
+              {{ form.start_date.label_tag }}
+              {{ form.start_date }}
+            </div>
+            <div class="mb-3">
+              {{ form.end_date.label_tag }}
+              {{ form.end_date }}
+            </div>
+            <div class="mb-3">
+              {{ form.pickup_location.label_tag }}
+              {{ form.pickup_location }}
+            </div>
+            <div class="mb-3">
+              {{ form.destination.label_tag }}
+              {{ form.destination }}
+            </div>
+            <div class="mb-3">
+              {{ form.purpose.label_tag }}
+              {{ form.purpose }}
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 fw-bold">🚗 Book Now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

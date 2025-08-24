@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from accounts.models import Vehicle
+from .forms import BookingForm
+from django.contrib import messages
 
 
 @login_required
@@ -29,5 +31,22 @@ def search(request):
         vechicles= Vehicle.objects.filter(vehicle_name__icontains= result)
         return render(request, 'app/search.html', {'vehicles': vechicles})
     return render(request, 'app/search.html', {})
+
+
+
+def booking(request, pk):
+    vehicle= Vehicle.objects.get(pk=pk)
+    if request.method=="POST":
+        form=BookingForm(request.POST)
+        if form.is_valid():
+            booking=form.save(commit=False)
+            booking.user= request.user
+            booking.vehicle=vehicle
+            booking.save()
+            messages.success(request, "Booking Sucessfull!!!")
+            return redirect('home')
+    form= BookingForm()
+    print(vehicle)
+    return render(request, 'app/booking.html', {'vehicle':vehicle, 'form': form})
     
     

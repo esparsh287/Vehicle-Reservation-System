@@ -60,6 +60,28 @@ class KYCForm(models.Model):
   def __str__(self):
     return self.vehicle.vehicle_name
 
+
+
+class Booking(models.Model):
+  STATUS_CHOICES=[
+    ('pending','Pending'),
+    ('approved', 'Approved'),
+    ('rejected','Rejected'),
+    ('cancelled','Cancelled'),
+  ]
+  user=models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='reservations')
+  vehicle=models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name='reservations')
+  start_date=models.DateField()
+  end_date=models.DateField()
+  pickup_location=models.CharField(max_length=300)
+  destination=models.CharField(max_length=200)
+  purpose=models.CharField(max_length=255)
+  status=models.CharField(choices=STATUS_CHOICES, default='pending', max_length=20)
+  created_at=models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return f"{self.user}|{self.vehicle}|{self.start_date}"
+
   
 
 

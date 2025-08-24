@@ -36,7 +36,7 @@
             
             
             
-    <form class="d-flex ms-3" role="search" style="max-width: 250px;" action="{% url 'search' %}" method="post">
+    <form class="d-flex ms-3" role="search" style="max-width: 250px;" action="{% url 'search'  %}" method="post">
         {% csrf_token %}
       <input class="form-control form-control-sm me-2" type="search" placeholder="Search" aria-label="Search" name="search"/>
       <button class="btn btn-outline-success btn-sm" type="submit">Search</button>
