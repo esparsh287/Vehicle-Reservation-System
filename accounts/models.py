@@ -68,6 +68,7 @@ class Booking(models.Model):
     ('approved', 'Approved'),
     ('rejected','Rejected'),
     ('cancelled','Cancelled'),
+    ('completed', 'Completed')
   ]
   user=models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='reservations')
   vehicle=models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name='reservations')
