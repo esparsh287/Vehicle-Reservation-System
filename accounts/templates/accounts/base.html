@@ -82,12 +82,22 @@
 
   // Show loader when navigating away
   document.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", function(e) {
-      if (this.target !== "_blank" && this.href && this.href.indexOf("#") === -1) {
-        document.getElementById("loader").classList.remove("hidden");
-      }
-    });
+  link.addEventListener("click", function (e) {
+    // Exclude links with target="_blank"
+    if (this.target === "_blank") return;
+
+    // Exclude anchor/hash links (#something)
+    if (this.href && this.href.indexOf("#") !== -1) return;
+
+    // Exclude links with "no-loader" class
+    if (this.classList.contains("no-loader")) return;
+
+    // Otherwise, show loader
+    document.getElementById("loader").classList.remove("hidden");
+    document.getElementById("loader").style.display = "block";
   });
+});
+
 </script>
 
     </body>

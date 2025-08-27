@@ -10,6 +10,7 @@
     </div>
 </header> 
 <br><br>
+
 <style>
   .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -21,38 +22,36 @@
 </style>
 
 <div class="container">
-  {% regroup vehicles by vehicle_type as vehicle_groups %}
 
-  {% for group in vehicle_groups %}
-    <h2 class="mt-4 mb-3 text-center text-uppercase ">
-      {{ group.grouper }}
-    </h2>
+ 
 
-    <div class="row g-4">
-      {% for vehicle in group.list %}
-        <div class="col-md-4 col-sm-6">  
-          <div class="card shadow-lg border-0 rounded-3 h-100">
-            <img src="{{ vehicle.photo.url }}" class="card-img-top" alt="{{ vehicle.vehicle_name }}">
-            
-            <div class="card-body">
-              <h5 class="card-title text-primary">{{ vehicle.vehicle_name }}</h5>
-              <p class="card-text text-muted">{{ vehicle.description|truncatewords:20 }}</p>
-            </div>
+ 
 
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item"><strong>Reg. Number:</strong> {{ vehicle.vehicle_number }}</li>
-              <li class="list-group-item"><strong>Capacity:</strong> {{ vehicle.capacity }}</li>
-              <li class="list-group-item"><strong>Owner:</strong> {{ vehicle.owner }}</li>
-            </ul>
+      <div class="row g-4">
+        {% for vehicle in vehicles %}
+          <div class="col-md-4 col-sm-6">  
+            <div class="card shadow-lg border-0 rounded-3 h-100">
+              <img src="{{ vehicle.photo.url }}" class="card-img-top" alt="{{ vehicle.vehicle_name }}">
+              
+              <div class="card-body">
+                <h5 class="card-title text-primary">{{ vehicle.vehicle_name }}</h5>
+                <p class="card-text text-muted">{{ vehicle.description|truncatewords:20 }}</p>
+              </div>
 
-            <div class="card-body text-center">
-              <a href="{% url 'booking' vehicle.pk %}" class="btn btn-outline-primary w-100"> Book Now</a>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Reg. Number:</strong> {{ vehicle.vehicle_number }}</li>
+                <li class="list-group-item"><strong>Capacity:</strong> {{ vehicle.capacity }}</li>
+                <li class="list-group-item"><strong>Owner:</strong> {{ vehicle.owner }}</li>
+              </ul>
+
+              <div class="card-body text-center">
+                <a href="{% url 'booking' vehicle.pk %}" class="btn btn-outline-primary w-100"> Book Now</a>
+              </div>
             </div>
           </div>
-        </div>
-      {% endfor %}
-    </div>
-  {% endfor %}
+        {% endfor %}
+      </div>
+  
 </div>
 
 {% endblock %}

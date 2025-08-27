@@ -1,0 +1,53 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+  <header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">KYC Forms</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Here are the approved KYCs...</p>
+        </div>
+    </div>
+  </header>
+
+<br><br><br><br><br><br>
+<div class="container">
+          <div class="row">
+            <center>
+              <div class="col-8">
+                
+                  <table class="table table-stripped table-hover table-bordered ">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">Owner</th>
+      <th scope="col">Vehicle</th>
+      <th scope="col">Citizenship Number</th>
+      <th scope="col">License Number</th>
+      <th scope="col">DOB</th>
+      <th scope="col">Submitted At</th>
+      <th scope="col">Approved At</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for kyc in kycs %}
+    <tr>
+      <td>{{kyc.vehicle.owner.username}}</td>
+      <td>{{kyc.vehicle}}</td>
+      <td>{{kyc.citizenship_number}}</td>
+      <td>{{kyc.license_number}}</td>
+      <td>{{kyc.dob}}</td>
+      <td>{{kyc.kyc_submitted_at}}</td>
+      <td>{{kyc.kyc_approved_at}}</td>
+      
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+              </div>
+            </center>
+          </div>
+        </div>
+<br><br><br><br><br><br>
+{% endblock %}
