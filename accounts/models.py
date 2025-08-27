@@ -72,6 +72,8 @@ class Booking(models.Model):
   ]
   user=models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='reservations')
   vehicle=models.ForeignKey(Vehicle, on_delete=models.CASCADE, related_name='reservations')
+  owner=models.ForeignKey(CustomUser, on_delete=models.CASCADE,null=True, 
+    blank=True, related_name='booking_received')
   start_date=models.DateField()
   end_date=models.DateField()
   pickup_location=models.CharField(max_length=300)
@@ -79,6 +81,11 @@ class Booking(models.Model):
   purpose=models.CharField(max_length=255)
   status=models.CharField(choices=STATUS_CHOICES, default='pending', max_length=20)
   created_at=models.DateTimeField(auto_now_add=True)
+
+  def save(self, *args, **kwargs):
+        if self.vehicle and not self.owner_id:
+            self.owner = self.vehicle.owner
+        super().save(*args, **kwargs)
 
   def __str__(self):
     return f"{self.user}|{self.vehicle}|{self.start_date}"

@@ -1,0 +1,65 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Your Ride</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Manage your reservations</p>
+        </div>
+    </div>
+</header> 
+<div class="container">
+          <div class="row">
+            <center>
+              <div class="col-8">
+                <h3>Your Ride Requests</h3>
+                </div>
+                 <table class="table table-stripped table-hover table-bordered ">
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">Vehicle</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">End Date</th>
+      <th scope="col">Pickup Address</th>
+      <th scope="col">Destination</th>
+      <th scope="col">Purpose</th>
+      <th scope="col">Status</th>
+      <th scope="col">Response</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for req in reqs %}
+    <tr>
+
+      <td>{{req.vehicle}}</td>
+      <td>{{req.start_date}}</td>
+      <td>{{req.end_date}}</td>
+      <td>{{req.pickup_location}}</td>
+      <td>{{req.destination}}</td>
+      <td>{{req.purpose}}</td>
+      <td>{{req.status}}</td>
+      <td>
+        {% if req.status == 'pending' %}
+      <form method="post" action="{% url 'vehilce_req_status' 'accept' %}">
+        {% csrf_token %}
+        <input type="hidden" name="req_id" value="{{req.id}}">
+        <button type="submit" class="btn btn-outline-success btn-sm">Accept</button>
+      </form>
+      <form method="post" action="{% url 'vehilce_req_status' 'cancel' %}" class="my-3">
+        {% csrf_token %}
+        <input type="hidden" name="req_id" value="{{req.id}}">
+        <button type="submit" class="btn btn-outline-danger btn-sm">Cancel</button>
+      </form>
+      {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+            </center>
+         
+          </div>
+</div>
+
+{% endblock %}

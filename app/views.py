@@ -68,6 +68,37 @@ def cancel_reservation(request, pk):
         return redirect('home')
     return redirect('reservations')
 
+
+def vehicle_requests(request):
+    reqs= Booking.objects.filter(owner=request.user)
+    return render(request, 'app/requests.html', {'reqs':reqs})
+
+
+def vehicle_requests_status(request, status):
+    if request.method=="POST" :
+        if status == "accept":
+            st= request.POST.get('req_id')
+            try:
+                req= Booking.objects.get(id=st)
+                req.status= "approved"
+                req.save()
+                messages.success(request, "Ride Accepted")
+            except Exception as e:
+                messages.error(request, e)
+            return redirect('vehicle_requests')
+        elif status == "cancel":
+            st= request.POST.get['req_id']
+            try:
+                req= Booking.objects.filter(id=st)
+                req.status= "rejected"
+                req.save()
+                messages.success(request, "Ride Rejected")
+            except:
+                messages.error(request, "error Occurred")
+            return redirect('vehicle_requests')
+        else:
+            return redirect('vehicle_requests')
+
     
 
     
