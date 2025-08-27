@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django import forms
 from .models import CustomUser
 from .models import Vehicle, KYCForm
@@ -72,3 +72,9 @@ class UserUpdateForm(UserChangeForm):
     class Meta:
         model=CustomUser
         fields=['username','email', 'first_name', 'last_name', 'phone_number', 'address']
+
+
+class UserPasswordForm(PasswordChangeForm):
+    class Meta:
+        model=CustomUser
+        fields=['password1', 'password2']

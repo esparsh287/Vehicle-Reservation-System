@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import SignUpForm, KYCform, UserUpdateForm
+from .forms import SignUpForm, KYCform, UserUpdateForm, UserPasswordForm
 from django.contrib import messages
 from .models import CustomUser, KYCForm
 from django.contrib.auth.decorators import login_required
@@ -110,6 +110,7 @@ def profile(request, pk):
     return render(request, 'accounts/profile.html',{'user':user})
 
 
+@login_required
 def update_profile(request, pk):
     user= CustomUser.objects.get(pk=pk)
     if request.method=="POST":
@@ -123,6 +124,20 @@ def update_profile(request, pk):
             return redirect('home')
     
     return render(request, 'accounts/update_profile.html', {'user':user})
+
+@login_required
+def update_password(request):
+    if request.method=="POST":
+        form= UserPasswordForm(request.user, request.POST)
+        if form.is_valid():
+            user=form.save()
+            messages.success(request, "Password Changed Sucessfully!!!")
+            return redirect('login')
+        else:
+            messages.error(request,"Error")
+    else:
+        form= UserPasswordForm(request.user)
+    return render(request, 'accounts/update_password.html',{'form': form})
 
 
 
